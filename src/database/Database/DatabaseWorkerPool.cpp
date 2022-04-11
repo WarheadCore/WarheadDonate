@@ -18,6 +18,7 @@
 #include "DatabaseWorkerPool.h"
 #include "AdhocStatement.h"
 #include "Errors.h"
+#include "ForumDatabase.h"
 #include "Log.h"
 #include "LoginDatabase.h"
 #include "MySQLPreparedStatement.h"
@@ -29,7 +30,6 @@
 #include "QueryResult.h"
 #include "SQLOperation.h"
 #include "Transaction.h"
-#include "ForumDatabase.h"
 #include <limits>
 #include <mysqld_error.h>
 

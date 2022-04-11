@@ -17,8 +17,8 @@
 
 #include "Donate.h"
 #include "Config.h"
-#include "Log.h"
 #include "DatabaseEnv.h"
+#include "Log.h"
 #include <nlohmann/json.hpp>
 
 std::atomic<bool> Donate::_stopEvent = false;

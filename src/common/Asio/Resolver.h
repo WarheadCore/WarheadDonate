@@ -20,8 +20,8 @@
 
 #include "IoContext.h"
 #include <boost/asio/ip/tcp.hpp>
-#include <string>
 #include <optional>
+#include <string>
 
 namespace Warhead::Asio
 {

@@ -17,8 +17,8 @@
 
 #include "Util.h"
 #include "Errors.h"
-#include <string>
 #include <algorithm>
+#include <string>
 #include <utf8.h>
 
 bool StringEqualI(std::string_view a, std::string_view b)

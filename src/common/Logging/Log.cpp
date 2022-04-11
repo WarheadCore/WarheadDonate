@@ -25,9 +25,9 @@
 #include <Poco/Logger.h>
 #include <Poco/PatternFormatter.h>
 #include <Poco/SplitterChannel.h>
+#include <fmt/core.h>
 #include <sstream>
 #include <unordered_map>
-#include <fmt/core.h>
 
 #if WARHEAD_PLATFORM == WARHEAD_PLATFORM_WINDOWS
 #include <Poco/WindowsConsoleChannel.h>

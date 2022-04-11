@@ -18,13 +18,13 @@
 #ifndef _DONATE_H_
 #define _DONATE_H_
 
-#include "Define.h"
 #include "AsyncCallbackProcessor.h"
 #include "DatabaseEnvFwd.h"
-#include "TaskScheduler.h"
+#include "Define.h"
 #include "Duration.h"
-#include <memory>
+#include "TaskScheduler.h"
 #include <atomic>
+#include <memory>
 
 enum ShutdownExitCode
 {

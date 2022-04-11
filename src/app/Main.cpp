@@ -16,20 +16,20 @@
  */
 
 #include "Config.h"
+#include "DatabaseEnv.h"
+#include "DatabaseLoader.h"
 #include "DeadlineTimer.h"
-#include "IoContext.h"
-#include "StopWatch.h"
+#include "Donate.h"
+#include "Errors.h"
 #include "GitRevision.h"
+#include "IPLocation.h"
+#include "IoContext.h"
 #include "Log.h"
 #include "Logo.h"
 #include "MySQLThreading.h"
-#include "IPLocation.h"
-#include "DatabaseEnv.h"
-#include "DatabaseLoader.h"
-#include "Errors.h"
-#include "Donate.h"
-#include <boost/version.hpp>
+#include "StopWatch.h"
 #include <boost/asio/signal_set.hpp>
+#include <boost/version.hpp>
 #include <csignal>
 
 #if WARHEAD_PLATFORM == WARHEAD_PLATFORM_WINDOWS
