@@ -51,6 +51,7 @@ target_link_libraries(common
     threads
     utf8cpp
     json
+    sfmt
     Poco::Foundation)
 
 set_target_properties(common
