@@ -57,7 +57,7 @@ void Donate::Init()
         context.Repeat(_repeatDelay);
     });
 
-    _scheduler.Schedule(30min, [this](TaskContext context)
+    _scheduler.Schedule(30min, [](TaskContext context)
     {
         LOG_DEBUG("sql.driver", "Ping MySQL to keep connection alive");
         LoginDatabase.KeepAlive();
