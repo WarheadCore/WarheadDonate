@@ -50,7 +50,7 @@ namespace
     constexpr auto PREFIX_LOGGER = "Logger.";
     constexpr auto PREFIX_CHANNEL = "LogChannel.";
     constexpr auto PREFIX_LOGGER_LENGTH = 7;
-    constexpr auto PREFIX_CHANNEL_LENGTH = 11;    
+    constexpr auto PREFIX_CHANNEL_LENGTH = 11;
 }
 
 Log::Log()
