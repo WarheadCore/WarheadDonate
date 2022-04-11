@@ -22,8 +22,3 @@ CollectIncludeDirectories(
 target_include_directories(json
   INTERFACE
     ${PUBLIC_INCLUDES})
-
-set_target_properties(json
-  PROPERTIES
-    FOLDER
-      "deps")
