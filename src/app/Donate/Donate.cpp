@@ -16,6 +16,7 @@
  */
 
 #include "Donate.h"
+#include "Config.h"
 #include "Log.h"
 #include "DatabaseEnv.h"
 #include <nlohmann/json.hpp>
@@ -43,10 +44,17 @@ void Donate::ScheduleTask()
 
 void Donate::Init()
 {
+    _repeatDelay = Seconds(sConfigMgr->GetOption<int64>("Donate.Repeat.Delay", 30));
+    if (_repeatDelay < 5s)
+    {
+        LOG_ERROR("donate", "Incorrect repeat delay {} sec. Set 5 sec.", _repeatDelay.count());
+        _repeatDelay = 5s;
+    }
+
     _scheduler.Schedule(5s, [this](TaskContext context)
     {
         ScheduleTask();
-        context.Repeat(30s);
+        context.Repeat(_repeatDelay);
     });
 
     _scheduler.Schedule(30min, [this](TaskContext context)

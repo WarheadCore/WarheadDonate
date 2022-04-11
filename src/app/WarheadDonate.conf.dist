@@ -9,13 +9,21 @@
 #
 
 LogsDir = "logs"
+
+#
+#    Donate.Repeat.Delay
+#        Description: Repeat at every seconds
+#        Default:     30
+#
+
+Donate.Repeat.Delay = 30
 ###################################################################################################
 
 ###################################################################################################
 # MYSQL SETTINGS
 #
 #    ForumDatabaseInfo
-#    CharacterDatabaseInfo
+#    LoginDatabaseInfo
 #        Description: Database connection settings for the world server.
 #        Example:     "hostname;port;username;password;database"
 #                     ".;somenumber;username;password;database" - (Use named pipes on Windows
@@ -23,35 +31,34 @@ LogsDir = "logs"
 #                                                                 section my.ini)
 #                     ".;/path/to/unix_socket;username;password;database" - (use Unix sockets on
 #                                                                           Unix/Linux)
-#        Default:     "127.0.0.1;3306;acore;acore;world"      - (ForumDatabaseInfo)
-#                     "127.0.0.1;3306;acore;acore;characters" - (CharacterDatabaseInfo)
+#        Default:     "127.0.0.1;3306;warhead;warhead;forum"      - (ForumDatabaseInfo)
+#                     "127.0.0.1;3306;warhead;warhead;characters" - (LoginDatabaseInfo)
 
-ForumDatabaseInfo     = "127.0.0.1;3306;acore;acore;acore_world"
-CharacterDatabaseInfo = "127.0.0.1;3306;acore;acore;acore_characters"
+ForumDatabaseInfo = "127.0.0.1;3306;warhead;warhead;forum"
+LoginDatabaseInfo = "127.0.0.1;3306;warhead;warhead;wh_auth"
 
 #
 #    LoginDatabase.WorkerThreads
 #    ForumDatabase.WorkerThreads
-#    CharacterDatabase.WorkerThreads
 #        Description: The amount of worker threads spawned to handle asynchronous (delayed) MySQL
 #                     statements. Each worker thread is mirrored with its own connection to the
 #                     MySQL server and their own thread on the MySQL server.
 #        Default:     1 - (ForumDatabase.WorkerThreads)
-#                     1 - (CharacterDatabase.WorkerThreads)
+#                     1 - (LoginDatabase.WorkerThreads)
 
-ForumDatabase.WorkerThreads     = 1
-CharacterDatabase.WorkerThreads = 1
+ForumDatabase.WorkerThreads = 1
+LoginDatabase.WorkerThreads = 1
 
 #
 #    LoginDatabase.SynchThreads
 #    ForumDatabase.SynchThreads
-#    CharacterDatabase.SynchThreads
+#    LoginDatabase.SynchThreads
 #        Description: The amount of MySQL connections spawned to handle.
 #        Default:     1 - (ForumDatabase.WorkerThreads)
-#                     1 - (CharacterDatabase.WorkerThreads)
+#                     1 - (LoginDatabase.WorkerThreads)
 
-ForumDatabase.SynchThreads     = 1
-CharacterDatabase.SynchThreads = 1
+ForumDatabase.SynchThreads = 1
+LoginDatabase.SynchThreads = 1
 ###################################################################################################
 
 ###################################################################################################
@@ -182,7 +189,7 @@ CharacterDatabase.SynchThreads = 1
 #
 
 LogChannel.Console = "1","local","%H:%M:%S %t","lightRed lightRed red brown magenta cyan lightMagenta green"
-LogChannel.Cleaner = "2","local","%Y-%m-%d %H:%M:%S %t","Cleaner.log","false","never","false","30 days","number"
+LogChannel.Donate = "2","local","%Y-%m-%d %H:%M:%S %t","Donate.log","false","never","false","30 days","number"
 
 #
 #  Logger config values: Given a logger "name"
@@ -205,5 +212,5 @@ LogChannel.Cleaner = "2","local","%Y-%m-%d %H:%M:%S %t","Cleaner.log","false","n
 #                     (Using spaces as separator).
 #
 
-Logger.root = 6,Console Cleaner
+Logger.root = 6,Console Donate
 ###################################################################################################
