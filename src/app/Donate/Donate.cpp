@@ -25,6 +25,10 @@ std::atomic<bool> Donate::_stopEvent = false;
 uint8 Donate::_exitCode = SHUTDOWN_EXIT_CODE;
 uint32 Donate::LoopCounter = 0;
 
+constexpr auto NEXUS_QUANTITY = "quantity";
+constexpr auto NEXUS_ITEM_ID = "itemID";
+constexpr auto NEXUS_C_FIELDS = "cfields";
+
 /*static*/ Donate* Donate::instance()
 {
     static Donate instance;
@@ -86,56 +90,67 @@ void Donate::CheckDonateCallback(PreparedQueryResult result)
 
 void Donate::ParseInfo(uint32 id, std::string_view info)
 {
-    std::string safeInfo{ info };
-
-    // Delete unneeded chars
-    if (safeInfo.front() == '[' && safeInfo.back() == ']')
+    if (info.empty())
     {
-        safeInfo.erase(0, 1);
-        safeInfo.pop_back();
+        LOG_ERROR("donate", "Empty info!");
+        return;
     }
 
     using nlohmann::json;
 
     try
     {
-        auto parseJson = json::parse(safeInfo);
-
-        auto& itemCount = parseJson.at("quantity");
-        auto& itemID = parseJson.at("itemID");
-
-        std::string realmName;
-        std::string playerName;
-
-        uint32 count = 1;
-        for (auto const& [key, value] : parseJson.at("cfields").items())
+        auto jsonInfo = json::parse(info);
+        if (!jsonInfo.is_array())
         {
-            if (count == 2)
-                realmName = value.get<std::string>();
-
-            if (count == 1)
-                playerName = value.get<std::string>();
-
-            count++;
-        }
-
-        if (!itemCount.is_number())
-        {
-            LOG_ERROR("donate", "key 'quantity' for id {} is incorrect. Skip", id);
+            LOG_ERROR("donate", "Json data is not array '{}'!", info);
             return;
         }
 
-        if (!itemID.is_number())
+        for (auto const& json : jsonInfo)
         {
-            LOG_ERROR("donate", "key 'itemID' for id {} is incorrect. Skip", id);
-            return;
-        }
+            if (!json.contains(NEXUS_QUANTITY))
+            {
+                LOG_ERROR("donate", "Not found field '{}'!", NEXUS_QUANTITY);
+                return;
+            }
 
-        SendDonate(id, realmName, playerName, itemID.get<uint32>(), itemCount.get<uint32>());
+            if (!json.contains(NEXUS_ITEM_ID))
+            {
+                LOG_ERROR("donate", "Not found field '{}'!", NEXUS_ITEM_ID);
+                return;
+            }
+
+            if (!json.contains(NEXUS_C_FIELDS))
+            {
+                LOG_ERROR("donate", "Not found field '{}'!", NEXUS_C_FIELDS);
+                return;
+            }
+
+            auto itemCount = json[NEXUS_QUANTITY].get<uint32>();
+            auto itemId = json[NEXUS_ITEM_ID].get<uint32>();
+
+            std::string realmName;
+            std::string playerName;
+
+            uint32 count = 1;
+            for (auto const& cField : json[NEXUS_C_FIELDS])
+            {
+                if (count == 2)
+                    realmName = cField.get<std::string_view>();
+
+                if (count == 1)
+                    playerName = cField.get<std::string_view>();
+
+                count++;
+            }
+
+            SendDonate(id, realmName, playerName, itemId, itemCount);
+        }
     }
     catch (nlohmann::detail::exception const& e)
     {
-        LOG_ERROR("donate", "Error at parse: {}. Data: {}", e.what(), safeInfo);
+        LOG_ERROR("donate", "Error at parse: {}. Data: {}", e.what(), info);
     }
 }
 
