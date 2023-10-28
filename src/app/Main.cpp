@@ -131,7 +131,10 @@ int main(int argc, char** argv)
     }
 #endif
 
-    if (!sConfigMgr->LoadAppConfigs(configFile))
+    // Add file and args in config
+    sConfigMgr->Configure(configFile, std::vector<std::string>(argv, argv + argc));
+
+    if (!sConfigMgr->LoadAppConfigs())
         return 1;
 
     // Init logging

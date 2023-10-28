@@ -52,7 +52,4 @@ std::array<uint8, Size> HexStrToByteArray(std::string_view str, bool reverse = f
     return arr;
 }
 
-// UTF8 handling
-WH_COMMON_API bool Utf8toWStr(std::string_view utf8str, std::wstring& wstr);
-
 #endif

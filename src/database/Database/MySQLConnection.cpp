@@ -404,7 +404,7 @@ int MySQLConnection::ExecuteTransaction(std::shared_ptr<TransactionBase> transac
                 }
                 catch (const std::bad_variant_access& ex)
                 {
-                    LOG_FATAL("sql.sql", "> PreparedStatementBase not found in SQLElementData. {}", ex.what());
+                    LOG_CRIT("sql.sql", "> PreparedStatementBase not found in SQLElementData. {}", ex.what());
                     ABORT();
                 }
 
@@ -429,7 +429,7 @@ int MySQLConnection::ExecuteTransaction(std::shared_ptr<TransactionBase> transac
                 }
                 catch (const std::bad_variant_access& ex)
                 {
-                    LOG_FATAL("sql.sql", "> std::string not found in SQLElementData. {}", ex.what());
+                    LOG_CRIT("sql.sql", "> std::string not found in SQLElementData. {}", ex.what());
                     ABORT();
                 }
 
@@ -579,7 +579,7 @@ bool MySQLConnection::_HandleMySQLErrno(uint32 errNo, uint8 attempts /*= 5*/)
                 // Don't remove 'this' pointer unless you want to skip loading all prepared statements...
                 if (!this->PrepareStatements())
                 {
-                    LOG_FATAL("sql.sql", "Could not re-prepare statements!");
+                    LOG_CRIT("sql.sql", "Could not re-prepare statements!");
                     std::this_thread::sleep_for(10s);
                     std::abort();
                 }
@@ -596,7 +596,7 @@ bool MySQLConnection::_HandleMySQLErrno(uint32 errNo, uint8 attempts /*= 5*/)
             {
                 // Shut down the server when the mysql server isn't
                 // reachable for some time
-                LOG_FATAL("sql.sql", "Failed to reconnect to the MySQL server, terminating the server to prevent data corruption!");
+                LOG_CRIT("sql.sql", "Failed to reconnect to the MySQL server, terminating the server to prevent data corruption!");
 
                 // We could also initiate a shutdown through using std::raise(SIGTERM)
                 std::this_thread::sleep_for(10s);

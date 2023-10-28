@@ -62,7 +62,7 @@ DatabaseWorkerPool<T>::DatabaseWorkerPool() :
     _async_threads(0),
     _synch_threads(0)
 {
-    WPFatal(mysql_thread_safe(), "Used MySQL library isn't thread-safe.");
+    ASSERT(mysql_thread_safe(), "Used MySQL library isn't thread-safe.");
 
 #if !defined(MARIADB_VERSION_ID) || MARIADB_VERSION_ID < 100600
     bool isSupportClientDB = mysql_get_client_version() >= MIN_MYSQL_CLIENT_VERSION;
@@ -72,8 +72,8 @@ DatabaseWorkerPool<T>::DatabaseWorkerPool() :
     bool isSameClientDB    = true; // Client version 3.2.3?
 #endif
 
-    WPFatal(isSupportClientDB, "WarheadCore does not support MySQL versions below 5.7 and MariaDB 10.3\nSearch the wiki for ACE00043 in Common Errors (https://www.azerothcore.org/wiki/common-errors).");
-    WPFatal(isSameClientDB, "Used MySQL library version ({} id {}) does not match the version id used to compile WarheadCore (id {}).\nSearch the wiki for ACE00046 in Common Errors (https://www.azerothcore.org/wiki/common-errors).",
+    ASSERT(isSupportClientDB, "WarheadCore does not support MySQL versions below 5.7 and MariaDB 10.3\nSearch the wiki for ACE00043 in Common Errors (https://www.azerothcore.org/wiki/common-errors).");
+    ASSERT(isSameClientDB, "Used MySQL library version ({} id {}) does not match the version id used to compile WarheadCore (id {}).\nSearch the wiki for ACE00046 in Common Errors (https://www.azerothcore.org/wiki/common-errors).",
         mysql_get_client_info(), mysql_get_client_version(), MYSQL_VERSION_ID);
 }
 
@@ -95,7 +95,7 @@ void DatabaseWorkerPool<T>::SetConnectionInfo(std::string_view infoString, uint8
 template <class T>
 uint32 DatabaseWorkerPool<T>::Open()
 {
-    WPFatal(_connectionInfo.get(), "Connection info was not set!");
+    ASSERT(_connectionInfo.get(), "Connection info was not set!");
 
     LOG_INFO("sql.driver", "Opening DatabasePool '{}'. Asynchronous connections: {}, synchronous connections: {}.",
         GetDatabaseName(), _async_threads, _synch_threads);

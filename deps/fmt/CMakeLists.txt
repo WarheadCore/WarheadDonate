@@ -41,10 +41,11 @@ add_headers(FMT_HEADERS
   core.h
   format.h
   format-inl.h
-  locale.h os.h
+  os.h
   ostream.h
   printf.h
   ranges.h
+  std.h
   xchar.h)
 
 set(FMT_SOURCES
@@ -61,7 +62,7 @@ endif()
 
 # Define FMT_CONSTEVAL for current using in c++20
 target_compile_definitions(fmt
-  PUBLIC
+    PUBLIC
     FMT_CONSTEVAL=)
 
 target_include_directories(fmt

@@ -49,10 +49,9 @@ target_link_libraries(common
     boost
     fmt
     threads
-    utf8cpp
     json
     sfmt
-    Poco::Foundation)
+    spdlog)
 
 set_target_properties(common
   PROPERTIES

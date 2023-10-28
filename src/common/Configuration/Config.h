@@ -31,24 +31,40 @@ class WH_COMMON_API ConfigMgr
     ~ConfigMgr() = default;
 
 public:
-    bool LoadAppConfigs(std::string_view initFileName);
+    bool LoadAppConfigs(bool isReload = false);
+    bool LoadModulesConfigs(bool isReload = false);
+    void ShowModulesConfigs();
+    void Configure(std::string_view initFileName, std::vector<std::string> args, std::string_view modulesConfigList = {});
 
     static ConfigMgr* instance();
 
-    std::string const GetFilename();
-    std::string const GetConfigPath();
+    bool Reload();
 
+    /// Overrides configuration with environment variables and returns overridden keys
+    std::vector<std::string> OverrideWithEnvVariablesIfAny();
+
+    std::string GetFilename();
+    std::string GetConfigPath();
+    [[nodiscard]] std::vector<std::string> const& GetArguments() const;
     std::vector<std::string> GetKeysByString(std::string const& name);
 
     template<class T>
     T GetOption(std::string const& name, T const& def, bool showLogs = true) const;
 
+    bool isDryRun() { return dryRun; }
+    void setDryRun(bool mode) { dryRun = mode; }
+
 private:
-    bool LoadInitial(std::string const& file, bool isReload = false);
-    bool LoadAdditionalFile(std::string file, bool isOptional = false, bool isReload = false);
+    /// Method used only for loading main configuration files (authserver.conf and worldserver.conf)
+    bool LoadInitial(std::string_view file, bool isReload = false);
+    bool LoadAdditionalFile(std::string_view file, bool isOptional = false, bool isReload = false);
 
     template<class T>
     T GetValueDefault(std::string const& name, T const& def, bool showLogs = true) const;
+
+    bool dryRun = false;
+
+    std::vector<std::string /*config variant*/> _moduleConfigFiles;
 };
 
 class WH_COMMON_API ConfigException : public std::length_error

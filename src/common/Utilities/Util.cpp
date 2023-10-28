@@ -19,7 +19,6 @@
 #include "Errors.h"
 #include <algorithm>
 #include <string>
-#include <utf8.h>
 
 bool StringEqualI(std::string_view a, std::string_view b)
 {
@@ -80,20 +79,4 @@ void Warhead::Impl::HexStrToByteArray(std::string_view str, uint8* out, size_t o
         char buffer[3] = { str[i], str[i + 1], '\0' };
         out[j++] = uint8(strtoul(buffer, nullptr, 16));
     }
-}
-
-bool Utf8toWStr(std::string_view utf8str, std::wstring& wstr)
-{
-    wstr.clear();
-    try
-    {
-        utf8::utf8to16(utf8str.begin(), utf8str.end(), std::back_inserter(wstr));
-    }
-    catch (std::exception const&)
-    {
-        wstr.clear();
-        return false;
-    }
-
-    return true;
 }
