@@ -135,7 +135,7 @@ void Donate::ParseInfo(uint32 id, std::string_view info)
     }
     catch (nlohmann::detail::exception const& e)
     {
-        LOG_ERROR("donate", "{}", e.what());
+        LOG_ERROR("donate", "Error at parse: {}. Data: {}", e.what(), safeInfo);
     }
 }
 
