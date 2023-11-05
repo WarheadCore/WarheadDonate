@@ -165,3 +165,30 @@ Sink.Donate = "2","2","[%Y-%m-%d %T.%e] %v","Donate.log"
 
 Logger.root = 2,Console Donate
 ###################################################################################################
+
+###################################################################################################
+#   DISCORD SETTINGS
+#
+#    Discord.Bot.Enable
+#        Description: Enable discord bot
+#        Default:     0 - (Disabled)
+#
+
+Discord.Bot.Enable = 0
+
+#
+#    Discord.Bot.Token
+#        Description: Discord bot token
+#        Default:     ""
+#
+
+Discord.Bot.Token = ""
+
+#
+#    Discord.Guild.ID
+#        Description: Discord server id
+#        Default:     0
+#
+
+Discord.Guild.ID = 0
+###################################################################################################

@@ -58,7 +58,7 @@ private:
 
     QueryCallbackProcessor _queryProcessor;
     TaskScheduler _scheduler;
-    Seconds _repeatDelay;
+    Seconds _repeatDelay{};
 
     static std::atomic<bool> _stopEvent;
     static uint8 _exitCode;

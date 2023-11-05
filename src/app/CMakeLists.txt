@@ -32,7 +32,8 @@ macro(GenerateApp dir appName)
     PRIVATE
       warhead-core-interface
     PUBLIC
-      database)
+      database
+      libdpp)
 
   CollectIncludeDirectories(
     ${dir}

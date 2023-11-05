@@ -16,10 +16,6 @@ CollectSourceFiles(
   # Exclude
   ${CMAKE_CURRENT_SOURCE_DIR}/PrecompiledHeaders)
 
-if(USE_COREPCH)
-  set(PRIVATE_PCH_HEADER PrecompiledHeaders/databasePCH.h)
-endif()
-
 # Group sources
 GroupSources(${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -65,6 +61,4 @@ set_target_properties(database
 InstallDynamicLibrary(database)
 
 # Generate precompiled header
-if(USE_COREPCH)
-  add_cxx_pch(database ${PRIVATE_PCH_HEADER})
-endif()
+target_precompile_headers(database PRIVATE PrecompiledHeaders/databasePCH.h)

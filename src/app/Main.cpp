@@ -177,10 +177,10 @@ int main(int argc, char** argv)
         delete del;
     });
 
-    threadPool->push_back(std::thread([ioContext]()
+    threadPool->emplace_back([ioContext]()
     {
         ioContext->run();
-    }));
+    });
 
     // Start the freeze check callback cycle in 5 seconds (cycle itself is 1 sec)
     auto freezeDetector = std::make_shared<FreezeDetector>(*ioContext);

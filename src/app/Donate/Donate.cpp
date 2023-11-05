@@ -18,6 +18,8 @@
 #include "Donate.h"
 #include "Config.h"
 #include "DatabaseEnv.h"
+#include "DiscordMgr.h"
+#include "StringConvert.h"
 #include "Log.h"
 #include <nlohmann/json.hpp>
 
@@ -68,6 +70,8 @@ void Donate::Init()
         ForumDatabase.KeepAlive();
         context.Repeat();
     });
+
+    sDiscordMgr->LoadConfig();
 }
 
 void Donate::ProcessQueryCallbacks()
@@ -82,7 +86,7 @@ void Donate::CheckDonateCallback(PreparedQueryResult result)
 
     do
     {
-        auto const& [id, info] = result->FetchTuple<uint32, std::string>();
+        auto const& [id, info] = result->FetchTuple<uint32, std::string_view>();
         ParseInfo(id, info);
 
     } while (result->NextRow());
@@ -166,4 +170,11 @@ void Donate::SendDonate(uint32 id, std::string_view realmName, std::string_view 
 
     LOG_INFO("donate", "Send donate. ID {}. Realm {}. Player {}. Item {}. Count {}",
         id, realmName, playerName, itemId, itemCount);
+
+    DiscordEmbedMsg message;
+    message.SetTitle(Warhead::StringFormat("Покупка на игровом мире; `{}`", realmName));
+    message.AddEmbedField("Игрок", playerName);
+    message.AddEmbedField("Предмет", Warhead::ToString(itemId));
+    message.AddEmbedField("Количество", Warhead::ToString(itemCount));
+    sDiscordMgr->SendEmbedMessage(message, DiscordChannelType::General);
 }
